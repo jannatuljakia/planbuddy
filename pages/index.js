@@ -30,7 +30,7 @@ function hoursLeft(deadline) {
 }
 
 function statusOf(item) {
-  if (isDone(item)) return { key: 'সম্পন্ন', color: 'var(--done)', bg: 'var(--done-bg)' };
+  if (isDone(item)) return { key: 'COMPLETED', color: 'var(--done)', bg: 'var(--done-bg)' };
 
   const h = hoursLeft(item.deadline);
 
