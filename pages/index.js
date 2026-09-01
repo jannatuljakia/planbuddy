@@ -367,8 +367,8 @@ export default function Home() {
           </nav>
           <div className="side-spacer" />
           <div className="friend-card">
-            <div className="emo">🤝</div>
-            <h4 style={{ background: 'var(--grad)', WebkitBackgroundClip: 'text', backgroundClip: 'text', color: 'transparent' }}>{myName ? `Hello, ${myName}!` : 'Hello!'} 👋</h4>
+            <div className="emo">💜</div>
+            <h4 style={{ background: 'var(--grad)', WebkitBackgroundClip: 'text', backgroundClip: 'text', color: 'transparent' }}>{myName ? `Hello, ${myName}!` : 'Hello!'}</h4>
             <p>Let's complete our plans together!</p>
             {myName && <button className="change-name" onClick={(e) => { e.stopPropagation(); setNameInput(myName); setNameModalOpen(true); }}>নাম বদলাও</button>}
           </div>
