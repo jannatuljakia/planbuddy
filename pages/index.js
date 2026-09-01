@@ -1087,7 +1087,7 @@ export default function Home() {
     <>
       <Head>
         <title>
-          🩷 PlanBuddy
+          💜 PlanBuddy
         </title>
       </Head>
 
