@@ -2208,35 +2208,35 @@ function SettingsView({
         </button>
       </div>
 
-      <div className="settings-block notification-settings">
+      <div className="settings-block reminder-settings-block">
         <h3>
           🔔 Reminder Notifications
         </h3>
 
-        <div className="srow notif-row">
+        <div className="reminder-row">
           <div>
             <div className="st">
               Push Reminders
             </div>
 
             <div className="sd">
-              ডেডলাইনের ২৪ ঘণ্টা ও ১ ঘণ্টা আগে ব্রাউজার বন্ধ থাকলেও নোটিফিকেশন আসবে
+              ডেডলাইনের সময় হলে ব্রাউজার নোটিফিকেশন পাবে
             </div>
           </div>
 
           <button
             type="button"
-            className={`switch ${
+            className={`reminder-switch ${
               notifState === 'on' ? 'on' : ''
             }`}
+            aria-label="Toggle Push Reminders"
             onClick={onEnableNotif}
-            aria-label="Toggle push reminders"
           />
         </div>
 
-        <div className="notif-divider" />
+        <div className="reminder-divider" />
 
-        <div className="srow notif-row">
+        <div className="reminder-row">
           <div>
             <div className="st">
               Reminder Lead Time
@@ -2247,17 +2247,17 @@ function SettingsView({
             </div>
           </div>
 
-          <select className="notif-select" defaultValue="24">
-            <option value="24">24 ঘণ্টা আগে</option>
-            <option value="12">12 ঘণ্টা আগে</option>
-            <option value="6">6 ঘণ্টা আগে</option>
+          <select className="reminder-select" defaultValue="24">
             <option value="1">1 ঘণ্টা আগে</option>
+            <option value="6">6 ঘণ্টা আগে</option>
+            <option value="24">24 ঘণ্টা আগে</option>
+            <option value="48">48 ঘণ্টা আগে</option>
           </select>
         </div>
 
-        <div className="notif-divider" />
+        <div className="reminder-divider" />
 
-        <div className="srow notif-row">
+        <div className="reminder-row">
           <div>
             <div className="st">
               Browser Permission
@@ -2270,16 +2270,12 @@ function SettingsView({
 
           <button
             type="button"
-            className="notif-enable"
+            className="reminder-enable"
             onClick={onEnableNotif}
-            disabled={notifState === 'unsupported'}
           >
-            {notifState === 'unsupported'
-              ? 'সাপোর্ট নেই'
-              : 'Enable'}
+            Enable
           </button>
         </div>
-
       </div>
 
       <div className="settings-block">
@@ -3267,54 +3263,104 @@ function GlobalStyle() {
         margin-top: 2px;
       }
 
-      .notif-row {
-        min-height: 62px;
-        padding: 10px 0;
+      /* Reminder Notifications — visual layout only */
+      .reminder-settings-block {
+        width: min(calc(100vw - 90px), 1120px);
+        box-sizing: border-box;
+        padding: 40px 44px 42px;
       }
 
-      .notif-row > div:first-child {
-        min-width: 0;
-        flex: 1;
+      .reminder-settings-block h3 {
+        font-size: 29px;
+        line-height: 1.2;
+        margin: 0 0 38px;
       }
 
-      .notif-divider {
+      .reminder-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 28px;
+        min-height: 64px;
+      }
+
+      .reminder-row .st {
+        font-size: 25px;
+        line-height: 1.2;
+        font-weight: 700;
+      }
+
+      .reminder-row .sd {
+        font-size: 21px;
+        line-height: 1.35;
+        color: var(--sub);
+        margin-top: 4px;
+      }
+
+      .reminder-divider {
         height: 1px;
         background: var(--line);
-        margin: 0;
+        margin: 24px 0;
       }
 
-      .notif-select {
-        width: 120px;
+      .reminder-switch {
+        width: 80px;
+        min-width: 80px;
+        height: 44px;
+        border: none;
+        border-radius: 999px;
+        background: var(--line);
+        position: relative;
+        flex-shrink: 0;
+        cursor: pointer;
+        transition: 0.2s ease;
+      }
+
+      .reminder-switch.on {
+        background: var(--grad);
+      }
+
+      .reminder-switch::after {
+        content: '';
+        position: absolute;
+        width: 36px;
         height: 36px;
-        padding: 0 30px 0 12px;
-        border: 1px solid var(--line);
-        border-radius: 11px;
+        top: 4px;
+        left: 4px;
+        background: #fff;
+        border-radius: 50%;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+        transition: 0.2s ease;
+      }
+
+      .reminder-switch.on::after {
+        left: 40px;
+      }
+
+      .reminder-select {
+        width: 238px;
+        min-width: 238px;
+        height: 70px;
+        padding: 0 28px;
+        border: 2px solid var(--line);
+        border-radius: 16px;
         background: var(--panel-2);
         color: var(--text);
-        font-family: inherit;
-        font-size: 13.5px;
+        font-size: 23px;
         outline: none;
-        flex-shrink: 0;
       }
 
-      .notif-enable {
-        width: 80px;
-        height: 36px;
-        padding: 0 12px;
-        border-radius: 11px;
-        border: 1px solid var(--line);
-        background: none;
+      .reminder-enable {
+        width: 158px;
+        min-width: 158px;
+        height: 72px;
+        border: 2px solid var(--line);
+        border-radius: 20px;
+        background: transparent;
         color: var(--text);
-        font-family: inherit;
+        font-size: 25px;
         font-weight: 700;
-        font-size: 13.5px;
         cursor: pointer;
-        flex-shrink: 0;
-      }
-
-      .notif-enable:disabled {
-        opacity: 0.6;
-        cursor: not-allowed;
       }
 
       .note {
