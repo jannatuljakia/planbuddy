@@ -7,7 +7,7 @@ export default async function handler(req, res) {
       const items = await getItems();
       return res.status(200).json(items);
     } catch (err) {
-      return res.status(500).json({ error: 'failed to load items' });
+      return res.status(500).json({ error: err.message });
     }
   }
 
