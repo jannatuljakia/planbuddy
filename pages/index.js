@@ -476,104 +476,86 @@ export default function Home() {
    * dashboard-এর items state refresh করা হচ্ছে।
    */
   async function handleSave() {
-    if (!form.title.trim()) {
-      return showToast(
-        'শিরোনাম দিতে হবে'
-      );
-    }
-
-    if (!form.deadline) {
-      return showToast(
-        'ডেডলাইন দিতে হবে'
-      );
-    }
-
-    const payload = {
-      type: form.type,
-      title: form.title.trim(),
-      subject: form.subject.trim(),
-      deadline: new Date(
-        form.deadline
-      ).toISOString(),
-      description:
-        form.description.trim(),
-      link: form.link.trim(),
-    };
-
-    try {
-      let res;
-
-      if (editing) {
-        res = await fetch(
-          `/api/items/${editing.id}`,
-          {
-            method: 'PUT',
-            headers: {
-              'Content-Type':
-                'application/json',
-            },
-            body: JSON.stringify(payload),
-          }
-        );
-      } else {
-        res = await fetch(
-          '/api/items',
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type':
-                'application/json',
-            },
-            body: JSON.stringify(payload),
-          }
-        );
-      }
-
-      /*
-       * API actually failed হলে success message
-       * দেখাবে না।
-       */
-      if (!res.ok) {
-        const errorText =
-          await res.text();
-
-        console.error(
-          'Save failed:',
-          res.status,
-          errorText
-        );
-
-        throw new Error(
-          `Save failed: ${res.status}`
-        );
-      }
-
-      /*
-       * Database/API successful হওয়ার পরে
-       * নতুন task আবার load করছি।
-       */
-      await fetchItems();
-
-      setModalOpen(false);
-      setEditing(null);
-
-      showToast(
-        editing
-          ? 'আপডেট হয়েছে ✅'
-          : 'নতুন টাস্ক যোগ হয়েছে 🎉'
-      );
-    } catch (e) {
-      console.error(
-        'handleSave error:',
-        e
-      );
-
-      showToast(
-        'সেভ করতে সমস্যা হয়েছে'
-      );
-    }
+  if (!form.title.trim()) {
+    return showToast('শিরোনাম দিতে হবে');
   }
 
+  if (!form.deadline) {
+    return showToast('ডেডলাইন দিতে হবে');
+  }
+
+  const payload = {
+    type: form.type,
+    title: form.title.trim(),
+    subject: form.subject.trim(),
+    deadline: new Date(form.deadline).toISOString(),
+    description: form.description.trim(),
+    link: form.link.trim(),
+  };
+
+  try {
+    let res;
+
+    if (editing) {
+      res = await fetch(`/api/items/${editing.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+    } else {
+      res = await fetch('/api/items', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+    }
+
+    // Server actually accepted the request কিনা check
+    if (!res.ok) {
+      let errorMessage = `Request failed (${res.status})`;
+
+      try {
+        const errorData = await res.json();
+
+        if (errorData?.error) {
+          errorMessage = errorData.error;
+        }
+      } catch (_) {}
+
+      throw new Error(errorMessage);
+    }
+
+    // Server থেকে save হওয়ার পরে dashboard আবার load হবে
+    await fetchItems();
+
+    // Modal reset
+    setModalOpen(false);
+    setEditing(null);
+
+    setForm({
+      type: 'task',
+      title: '',
+      subject: '',
+      deadline: '',
+      description: '',
+      link: '',
+    });
+
+    showToast(
+      editing
+        ? 'আপডেট হয়েছে ✅'
+        : 'নতুন টাস্ক যোগ হয়েছে 🎉'
+    );
+
+  } catch (error) {
+    console.error('Task save failed:', error);
+    showToast('সেভ করতে সমস্যা হয়েছে');
+  }
+}
   async function handleDelete(id) {
     if (
       !confirm(
@@ -3132,21 +3114,27 @@ function GlobalStyle() {
       }
 
       .catrow {
-        display: flex;
-        gap: 8px;
-        flex-wrap: wrap;
-      }
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  width: 100%;
+}
 
-      .catchip {
-        padding: 8px 14px;
-        border-radius: 10px;
-        border: 1px solid var(--line);
-        font-size: 12.5px;
-        font-weight: 700;
-        cursor: pointer;
-        background: var(--panel-2);
-        color: var(--sub);
-      }
+.catchip {
+  min-width: 0;
+  padding: 10px 6px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  font-size: 12.5px;
+  font-weight: 700;
+  cursor: pointer;
+  background: var(--panel-2);
+  color: var(--sub);
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
       .modal-actions {
         display: flex;
