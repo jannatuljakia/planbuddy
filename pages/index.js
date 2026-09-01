@@ -2208,49 +2208,92 @@ function SettingsView({
         </button>
       </div>
 
-      <div className="settings-block">
+      <div className="settings-block notification-block">
         <h3>
           🔔 Reminder Notifications
         </h3>
 
-        <div className="srow">
+        <div className="notification-row">
           <div>
             <div className="st">
               Push Reminders
             </div>
 
             <div className="sd">
-              ডেডলাইনের ২৪ ঘণ্টা ও ১
-              ঘণ্টা আগে ব্রাউজার বন্ধ
-              থাকলেও নোটিফিকেশন আসবে
+              ডেডলাইনের ২৪ ঘণ্টা ও ১ ঘণ্টা আগে ব্রাউজার বন্ধ থাকলেও নোটিফিকেশন আসবে
             </div>
           </div>
 
           <button
-            className="btn-ghost"
-            onClick={
-              onEnableNotif
-            }
-            disabled={
+            className={`switch ${
               notifState === 'on'
+                ? 'on'
+                : ''
+            }`}
+            onClick={onEnableNotif}
+            disabled={
+              notifState === 'on' ||
+              notifState === 'unsupported'
+            }
+            aria-label="Toggle push reminders"
+          />
+        </div>
+
+        <div className="notification-divider" />
+
+        <div className="notification-row">
+          <div>
+            <div className="st">
+              Reminder Lead Time
+            </div>
+
+            <div className="sd">
+              ডেডলাইনের কতক্ষণ আগে জানাবে
+            </div>
+          </div>
+
+          <select
+            className="lead-select"
+            defaultValue="24"
+            aria-label="Reminder lead time"
+          >
+            <option value="1">১ ঘণ্টা আগে</option>
+            <option value="6">৬ ঘণ্টা আগে</option>
+            <option value="12">১২ ঘণ্টা আগে</option>
+            <option value="24">২৪ ঘণ্টা আগে</option>
+            <option value="48">৪৮ ঘণ্টা আগে</option>
+          </select>
+        </div>
+
+        <div className="notification-divider" />
+
+        <div className="notification-row">
+          <div>
+            <div className="st">
+              Browser Permission
+            </div>
+
+            <div className="sd">
+              {notifState === 'on'
+                ? 'নোটিফিকেশন পারমিশন দেওয়া আছে'
+                : 'অনুমতি প্রয়োজন'}
+            </div>
+          </div>
+
+          <button
+            className="btn-ghost permission-btn"
+            onClick={onEnableNotif}
+            disabled={
+              notifState === 'on' ||
+              notifState === 'unsupported'
             }
           >
             {notifState === 'on'
-              ? 'চালু ✅'
-              : notifState ===
-                'unsupported'
+              ? 'Allowed ✓'
+              : notifState === 'unsupported'
               ? 'সাপোর্ট নেই'
               : 'Enable'}
           </button>
-        </div>
-
-        <div className="note">
-          নোট: রিমাইন্ডার সার্ভার থেকে
-          পাঠানো হয়, তাই এটা চেক করার
-          ফ্রিকোয়েন্সি নির্ভর করে cron
-          শিডিউলের উপর — যত ঘনঘন চেক হবে,
-          তত নিখুঁত সময়ে নোটিফিকেশন আসবে
-          (README দ্রষ্টব্য)।
         </div>
       </div>
 
@@ -3226,6 +3269,50 @@ function GlobalStyle() {
         justify-content: space-between;
         padding: 10px 0;
         gap: 12px;
+      }
+
+      .notification-block h3 {
+        margin-bottom: 8px;
+      }
+
+      .notification-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px 0;
+        gap: 18px;
+      }
+
+      .notification-row > div:first-child {
+        min-width: 0;
+      }
+
+      .notification-divider {
+        height: 1px;
+        background: var(--line);
+      }
+
+      .lead-select {
+        width: 120px;
+        min-width: 120px;
+        padding: 9px 12px;
+        border-radius: 11px;
+        border: 1px solid var(--line);
+        background: var(--panel);
+        color: var(--text);
+        font-size: 13.5px;
+        font-weight: 600;
+        outline: none;
+        cursor: pointer;
+      }
+
+      .lead-select:focus {
+        border-color: var(--purple);
+      }
+
+      .permission-btn {
+        flex: 0 0 100px;
+        padding: 11px 16px;
       }
 
       .srow .st {
