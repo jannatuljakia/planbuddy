@@ -349,10 +349,11 @@ export default function Home() {
     }
 
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker
-        .register('/sw.js')
-        .catch(() => {});
-    }
+  navigator.serviceWorker
+    .register('/sw.js')
+    .then((reg) => console.log('SW ok:', reg.scope))
+    .catch((err) => console.error('SW error:', err));
+}
 
     const savedName =
       localStorage.getItem('planner_my_name');
