@@ -1,0 +1,82 @@
+:root {
+  --purple: #7c3aed;
+  --pink: #ec4899;
+  --grad: linear-gradient(135deg, #7c3aed, #ec4899);
+
+  --bg: #f4f3fb;
+  --panel: #ffffff;
+  --panel-2: #fafafe;
+  --text: #1e1b2e;
+  --sub: #6b6880;
+  --line: #ecebf6;
+  --shadow: 0 4px 18px rgba(90, 60, 180, 0.08);
+
+  --quiz: #7c3aed;
+  --quiz-bg: #ede7fb;
+  --assignment: #16a34a;
+  --assignment-bg: #e1f8e9;
+  --presentation: #f59e0b;
+  --presentation-bg: #fef2dc;
+  --task: #3b82f6;
+  --task-bg: #e2ecfe;
+
+  --overdue: #dc2626;
+  --overdue-bg: #fde4e4;
+  --soon: #d97706;
+  --soon-bg: #fef0d9;
+  --calm: #2563eb;
+  --calm-bg: #e2ecfe;
+  --done: #16a34a;
+  --done-bg: #e1f8e9;
+}
+
+html.dark {
+  --bg: #0c0b16;
+  --panel: #161426;
+  --panel-2: #1d1a30;
+  --text: #f2f0fa;
+  --sub: #9c98b8;
+  --line: #2a2740;
+  --shadow: 0 4px 22px rgba(0, 0, 0, 0.35);
+
+  --quiz-bg: #2a2148;
+  --assignment-bg: #122a1d;
+  --presentation-bg: #2e2513;
+  --task-bg: #152238;
+  --overdue-bg: #3a1620;
+  --soon-bg: #332211;
+  --calm-bg: #152238;
+  --done-bg: #122a1d;
+}
+
+html,
+body {
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Hind Siliguri', 'Poppins', 'Segoe UI', sans-serif;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+}
+
+::selection {
+  background: var(--pink);
+  color: #fff;
+}
