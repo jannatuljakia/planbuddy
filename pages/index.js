@@ -578,12 +578,12 @@ export default function Home() {
 
             <div className="field">
               <label>টাইটেল</label>
-              <input type="text" placeholder="যেমন: Data Structures Quiz" value={form.title} onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))} />
+              <input type="text" placeholder="যেমন: AI Quiz 1" value={form.title} onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))} />
             </div>
 
             <div className="field">
               <label>বিষয় (Subject)</label>
-              <input type="text" placeholder="যেমন: Data Structures" value={form.subject} onChange={(e) => setForm((f) => ({ ...f, subject: e.target.value }))} />
+              <input type="text" placeholder="যেমন: Artificial Intelligence" value={form.subject} onChange={(e) => setForm((f) => ({ ...f, subject: e.target.value }))} />
             </div>
 
             <div className="field">
