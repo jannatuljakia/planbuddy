@@ -13,7 +13,7 @@ export default async function handler(req, res) {
 
   if (req.method === 'PUT') {
     if (idx === -1) return res.status(404).json({ error: 'not found' });
-    const { type, title, subject, deadline, description, addedBy } = req.body || {};
+    const { type, title, subject, deadline, description, link, addedBy } = req.body || {};
     const deadlineChanged = deadline && deadline !== items[idx].deadline;
     items[idx] = {
       ...items[idx],
@@ -22,6 +22,7 @@ export default async function handler(req, res) {
       subject: subject ?? items[idx].subject,
       deadline: deadline ?? items[idx].deadline,
       description: description ?? items[idx].description,
+      link: link ?? items[idx].link,
       addedBy: addedBy ?? items[idx].addedBy,
       notified24: deadlineChanged ? false : items[idx].notified24,
       notified1: deadlineChanged ? false : items[idx].notified1,
