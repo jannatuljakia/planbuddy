@@ -1106,7 +1106,7 @@ export default function Home() {
         <aside className="sidebar">
           <div className="logo">
             <span className="heart">
-              🩷
+              💜
             </span>
 
             <span className="plan">
@@ -1149,14 +1149,14 @@ export default function Home() {
 
           <div className="friend-card">
             <div className="emo">
-              👩🏻‍❤️‍👨🏻
+              🤝
             </div>
 
             <h4>
               {myName
                 ? `Hello, ${myName}!`
                 : 'Hello!'}{' '}
-              👋🏻
+              👋
             </h4>
 
             <p>
@@ -1689,7 +1689,7 @@ export default function Home() {
                   <div className="tip-card">
                     <h4>
                       You've got this!
-                      💪🏼
+                      💪
                     </h4>
 
                     <p>
@@ -1908,7 +1908,7 @@ export default function Home() {
         <div className="overlay">
           <div className="modal name-modal">
             <h3>
-              তুমি কে? 👋🏻
+              তুমি কে? 👋
             </h3>
 
             <p className="name-sub">
