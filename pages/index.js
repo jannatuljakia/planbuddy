@@ -1106,13 +1106,7 @@ export default function Home() {
               💜
             </span>
 
-            <span className="plan">
-              Plan
-            </span>
-
-            <span className="buddy">
-              Buddy
-            </span>
+            <span className="plan">Plan</span><span className="buddy">Buddy</span>
           </div>
 
           <div className="tagline">
