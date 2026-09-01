@@ -12,7 +12,7 @@ export default async function handler(req, res) {
   }
 
   if (req.method === 'POST') {
-    const { type, title, subject, deadline, description, addedBy } = req.body || {};
+    const { type, title, subject, deadline, description, link, addedBy } = req.body || {};
     if (!title || !deadline) {
       return res.status(400).json({ error: 'title and deadline are required' });
     }
@@ -25,6 +25,7 @@ export default async function handler(req, res) {
         subject: subject || '',
         deadline,
         description: description || '',
+        link: link || '',
         addedBy: addedBy || '',
         createdAt: new Date().toISOString(),
         notified24: false,
