@@ -83,46 +83,60 @@ function daysBetween(a, b) {
   return Math.round((B - A) / 86400000);
 }
 
+function remainingTimeLabel(h) {
+  // h = hoursLeft (negative হলে overdue, positive হলে due soon)
+  const totalMinutes = Math.round(Math.abs(h) * 60);
+
+  let value, unit;
+
+  if (totalMinutes < 60) {
+    value = totalMinutes;
+    unit = 'মিনিট';
+  } else {
+    value = Math.round(totalMinutes / 60);
+    unit = 'ঘণ্টা';
+  }
+
+  return h < 0
+    ? `${value} ${unit} আগে পার হয়েছে`
+    : `${value} ${unit} বাকি`;
+}
+
 function whenLabel(deadline) {
   const due = new Date(deadline);
   const now = new Date();
 
   const diffDays = daysBetween(now, due);
   const t = fmtTime(due);
+  const h = hoursLeft(deadline);
+
+  // l1 — আগের মতোই, কোনো পরিবর্তন নেই
+  let l1;
 
   if (diffDays === 0) {
-    return {
-      l1: `Today, ${t}`,
-      l2: `আজ, ${t}`,
-    };
+    l1 = `Today, ${t}`;
+  } else if (diffDays === 1) {
+    l1 = `Tomorrow, ${t}`;
+  } else if (diffDays === -1) {
+    l1 = `Yesterday, ${t}`;
+  } else {
+    l1 = `${due.toLocaleString('en-US', {
+      month: 'short',
+    })} ${due.getDate()}, ${t}`;
   }
 
-  if (diffDays === 1) {
-    return {
-      l1: `Tomorrow, ${t}`,
-      l2: `আগামীকাল, ${t}`,
-    };
+  // l2 — DUE SOON / OVERDUE হলে remaining/elapsed time,
+  // নাহলে (UPCOMING) আগের দিন-ভিত্তিক ফরম্যাট
+  let l2;
+
+  if (h <= 24) {
+    l2 = remainingTimeLabel(h);
+  } else {
+    l2 = `${diffDays} দিন বাকি`;
   }
-
-  if (diffDays === -1) {
-    return {
-      l1: `Yesterday, ${t}`,
-      l2: `গতকাল, ${t}`,
-    };
-  }
-
-  const l1 = `${due.toLocaleString('en-US', {
-    month: 'short',
-  })} ${due.getDate()}, ${t}`;
-
-  const l2 =
-    diffDays > 0
-      ? `${diffDays} দিন বাকি`
-      : `${Math.abs(diffDays)} দিন পার হয়েছে`;
 
   return { l1, l2 };
 }
-
 function toLocalInputValue(isoStr) {
   const d = new Date(isoStr);
 
