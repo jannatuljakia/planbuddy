@@ -2208,28 +2208,28 @@ function SettingsView({
         </button>
       </div>
 
-      <div className="settings-block reminder-settings-block">
+      <div className="settings-block reminder-settings">
         <h3>
           🔔 Reminder Notifications
         </h3>
 
         <div className="reminder-row">
           <div>
-            <div className="st">
+            <div className="reminder-title">
               Push Reminders
             </div>
 
-            <div className="sd">
+            <div className="reminder-desc">
               ডেডলাইনের সময় হলে ব্রাউজার নোটিফিকেশন পাবে
             </div>
           </div>
 
           <button
             type="button"
+            aria-label="Toggle push reminders"
             className={`reminder-switch ${
               notifState === 'on' ? 'on' : ''
             }`}
-            aria-label="Toggle Push Reminders"
             onClick={onEnableNotif}
           />
         </div>
@@ -2238,16 +2238,20 @@ function SettingsView({
 
         <div className="reminder-row">
           <div>
-            <div className="st">
+            <div className="reminder-title">
               Reminder Lead Time
             </div>
 
-            <div className="sd">
+            <div className="reminder-desc">
               ডেডলাইনের কতক্ষণ আগে জানাবে
             </div>
           </div>
 
-          <select className="reminder-select" defaultValue="24">
+          <select
+            className="reminder-select"
+            defaultValue="24"
+            aria-label="Reminder Lead Time"
+          >
             <option value="1">1 ঘণ্টা আগে</option>
             <option value="6">6 ঘণ্টা আগে</option>
             <option value="24">24 ঘণ্টা আগে</option>
@@ -2259,11 +2263,11 @@ function SettingsView({
 
         <div className="reminder-row">
           <div>
-            <div className="st">
+            <div className="reminder-title">
               Browser Permission
             </div>
 
-            <div className="sd">
+            <div className="reminder-desc">
               অনুমতি প্রয়োজন
             </div>
           </div>
@@ -2271,7 +2275,21 @@ function SettingsView({
           <button
             type="button"
             className="reminder-enable"
-            onClick={onEnableNotif}
+            onClick={async () => {
+              if (typeof window === 'undefined' || !('Notification' in window)) {
+                return;
+              }
+
+              try {
+                const permission = await Notification.requestPermission();
+
+                if (permission === 'granted') {
+                  await onEnableNotif();
+                }
+              } catch (e) {
+                console.error('Browser permission error:', e);
+              }
+            }}
           >
             Enable
           </button>
@@ -3244,6 +3262,114 @@ function GlobalStyle() {
         font-family: 'Poppins', sans-serif;
       }
 
+      /* Reminder Notifications only */
+      .reminder-settings {
+        padding: 42px 44px;
+        border-radius: 28px;
+        width: min(1116px, calc(100vw - 250px));
+        box-sizing: border-box;
+      }
+
+      .reminder-settings h3 {
+        font-size: 30px;
+        line-height: 1.2;
+        margin: 0 0 42px;
+        letter-spacing: -0.5px;
+      }
+
+      .reminder-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 28px;
+        min-height: 76px;
+      }
+
+      .reminder-title {
+        font-size: 25px;
+        line-height: 1.2;
+        font-weight: 700;
+        font-family: 'Poppins', sans-serif;
+      }
+
+      .reminder-desc {
+        font-size: 20px;
+        line-height: 1.45;
+        color: var(--sub);
+        margin-top: 3px;
+      }
+
+      .reminder-divider {
+        height: 1px;
+        background: var(--line);
+        margin: 25px 0;
+      }
+
+      .reminder-switch {
+        width: 80px;
+        height: 44px;
+        min-width: 80px;
+        padding: 0;
+        border: none;
+        border-radius: 999px;
+        background: var(--line);
+        position: relative;
+        cursor: pointer;
+        transition: background .2s ease;
+      }
+
+      .reminder-switch.on {
+        background: var(--grad);
+      }
+
+      .reminder-switch::after {
+        content: '';
+        position: absolute;
+        width: 36px;
+        height: 36px;
+        top: 4px;
+        left: 4px;
+        border-radius: 50%;
+        background: #fff;
+        box-shadow: 0 2px 6px rgba(0,0,0,.18);
+        transition: left .2s ease;
+      }
+
+      .reminder-switch.on::after {
+        left: 40px;
+      }
+
+      .reminder-select {
+        width: 238px;
+        height: 70px;
+        padding: 0 42px 0 30px;
+        border-radius: 18px;
+        border: 1px solid var(--line);
+        background: var(--panel);
+        color: var(--text);
+        font-size: 20px;
+        font-family: inherit;
+        outline: none;
+      }
+
+      .reminder-enable {
+        width: 158px;
+        height: 70px;
+        border-radius: 18px;
+        border: 1px solid var(--line);
+        background: var(--panel);
+        color: var(--text);
+        font-size: 20px;
+        font-weight: 700;
+        font-family: inherit;
+        cursor: pointer;
+      }
+
+      .reminder-enable:hover,
+      .reminder-select:hover {
+        background: var(--panel-2);
+      }
+
       .srow {
         display: flex;
         align-items: center;
@@ -3261,106 +3387,6 @@ function GlobalStyle() {
         font-size: 12px;
         color: var(--sub);
         margin-top: 2px;
-      }
-
-      /* Reminder Notifications — visual layout only */
-      .reminder-settings-block {
-        width: min(calc(100vw - 90px), 1120px);
-        box-sizing: border-box;
-        padding: 40px 44px 42px;
-      }
-
-      .reminder-settings-block h3 {
-        font-size: 29px;
-        line-height: 1.2;
-        margin: 0 0 38px;
-      }
-
-      .reminder-row {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 28px;
-        min-height: 64px;
-      }
-
-      .reminder-row .st {
-        font-size: 25px;
-        line-height: 1.2;
-        font-weight: 700;
-      }
-
-      .reminder-row .sd {
-        font-size: 21px;
-        line-height: 1.35;
-        color: var(--sub);
-        margin-top: 4px;
-      }
-
-      .reminder-divider {
-        height: 1px;
-        background: var(--line);
-        margin: 24px 0;
-      }
-
-      .reminder-switch {
-        width: 80px;
-        min-width: 80px;
-        height: 44px;
-        border: none;
-        border-radius: 999px;
-        background: var(--line);
-        position: relative;
-        flex-shrink: 0;
-        cursor: pointer;
-        transition: 0.2s ease;
-      }
-
-      .reminder-switch.on {
-        background: var(--grad);
-      }
-
-      .reminder-switch::after {
-        content: '';
-        position: absolute;
-        width: 36px;
-        height: 36px;
-        top: 4px;
-        left: 4px;
-        background: #fff;
-        border-radius: 50%;
-        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
-        transition: 0.2s ease;
-      }
-
-      .reminder-switch.on::after {
-        left: 40px;
-      }
-
-      .reminder-select {
-        width: 238px;
-        min-width: 238px;
-        height: 70px;
-        padding: 0 28px;
-        border: 2px solid var(--line);
-        border-radius: 16px;
-        background: var(--panel-2);
-        color: var(--text);
-        font-size: 23px;
-        outline: none;
-      }
-
-      .reminder-enable {
-        width: 158px;
-        min-width: 158px;
-        height: 72px;
-        border: 2px solid var(--line);
-        border-radius: 20px;
-        background: transparent;
-        color: var(--text);
-        font-size: 25px;
-        font-weight: 700;
-        cursor: pointer;
       }
 
       .note {
