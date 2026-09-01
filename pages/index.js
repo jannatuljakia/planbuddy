@@ -422,7 +422,7 @@ export default function Home() {
 
       <div className="app" onClick={() => { if (openMenuId) setOpenMenuId(null); if (bellOpen) setBellOpen(false); }}>
         <aside className="sidebar">
-          <div className="logo"><span className="heart">💜</span><span className="plan">Plan className="buddy">Buddy</span></div>
+          <div className="logo"><span className="heart">💜</span><span className="plan">Plan</span><span className="buddy">Buddy</span></div>
           <div className="tagline">Our tasks, our success ✨</div>
           <nav>
             {NAV.map((n) => (
