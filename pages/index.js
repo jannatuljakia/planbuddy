@@ -2208,12 +2208,12 @@ function SettingsView({
         </button>
       </div>
 
-      <div className="settings-block notification-block">
+      <div className="settings-block notification-settings">
         <h3>
           🔔 Reminder Notifications
         </h3>
 
-        <div className="notification-row">
+        <div className="srow notif-row">
           <div>
             <div className="st">
               Push Reminders
@@ -2225,23 +2225,18 @@ function SettingsView({
           </div>
 
           <button
+            type="button"
             className={`switch ${
-              notifState === 'on'
-                ? 'on'
-                : ''
+              notifState === 'on' ? 'on' : ''
             }`}
             onClick={onEnableNotif}
-            disabled={
-              notifState === 'on' ||
-              notifState === 'unsupported'
-            }
             aria-label="Toggle push reminders"
           />
         </div>
 
-        <div className="notification-divider" />
+        <div className="notif-divider" />
 
-        <div className="notification-row">
+        <div className="srow notif-row">
           <div>
             <div className="st">
               Reminder Lead Time
@@ -2252,49 +2247,39 @@ function SettingsView({
             </div>
           </div>
 
-          <select
-            className="lead-select"
-            defaultValue="24"
-            aria-label="Reminder lead time"
-          >
-            <option value="1">১ ঘণ্টা আগে</option>
-            <option value="6">৬ ঘণ্টা আগে</option>
-            <option value="12">১২ ঘণ্টা আগে</option>
-            <option value="24">২৪ ঘণ্টা আগে</option>
-            <option value="48">৪৮ ঘণ্টা আগে</option>
+          <select className="notif-select" defaultValue="24">
+            <option value="24">24 ঘণ্টা আগে</option>
+            <option value="12">12 ঘণ্টা আগে</option>
+            <option value="6">6 ঘণ্টা আগে</option>
+            <option value="1">1 ঘণ্টা আগে</option>
           </select>
         </div>
 
-        <div className="notification-divider" />
+        <div className="notif-divider" />
 
-        <div className="notification-row">
+        <div className="srow notif-row">
           <div>
             <div className="st">
               Browser Permission
             </div>
 
             <div className="sd">
-              {notifState === 'on'
-                ? 'নোটিফিকেশন পারমিশন দেওয়া আছে'
-                : 'অনুমতি প্রয়োজন'}
+              অনুমতি প্রয়োজন
             </div>
           </div>
 
           <button
-            className="btn-ghost permission-btn"
+            type="button"
+            className="notif-enable"
             onClick={onEnableNotif}
-            disabled={
-              notifState === 'on' ||
-              notifState === 'unsupported'
-            }
+            disabled={notifState === 'unsupported'}
           >
-            {notifState === 'on'
-              ? 'Allowed ✓'
-              : notifState === 'unsupported'
+            {notifState === 'unsupported'
               ? 'সাপোর্ট নেই'
               : 'Enable'}
           </button>
         </div>
+
       </div>
 
       <div className="settings-block">
@@ -3271,50 +3256,6 @@ function GlobalStyle() {
         gap: 12px;
       }
 
-      .notification-block h3 {
-        margin-bottom: 8px;
-      }
-
-      .notification-row {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 16px 0;
-        gap: 18px;
-      }
-
-      .notification-row > div:first-child {
-        min-width: 0;
-      }
-
-      .notification-divider {
-        height: 1px;
-        background: var(--line);
-      }
-
-      .lead-select {
-        width: 120px;
-        min-width: 120px;
-        padding: 9px 12px;
-        border-radius: 11px;
-        border: 1px solid var(--line);
-        background: var(--panel);
-        color: var(--text);
-        font-size: 13.5px;
-        font-weight: 600;
-        outline: none;
-        cursor: pointer;
-      }
-
-      .lead-select:focus {
-        border-color: var(--purple);
-      }
-
-      .permission-btn {
-        flex: 0 0 100px;
-        padding: 11px 16px;
-      }
-
       .srow .st {
         font-size: 13.5px;
         font-weight: 600;
@@ -3324,6 +3265,56 @@ function GlobalStyle() {
         font-size: 12px;
         color: var(--sub);
         margin-top: 2px;
+      }
+
+      .notif-row {
+        min-height: 62px;
+        padding: 10px 0;
+      }
+
+      .notif-row > div:first-child {
+        min-width: 0;
+        flex: 1;
+      }
+
+      .notif-divider {
+        height: 1px;
+        background: var(--line);
+        margin: 0;
+      }
+
+      .notif-select {
+        width: 120px;
+        height: 36px;
+        padding: 0 30px 0 12px;
+        border: 1px solid var(--line);
+        border-radius: 11px;
+        background: var(--panel-2);
+        color: var(--text);
+        font-family: inherit;
+        font-size: 13.5px;
+        outline: none;
+        flex-shrink: 0;
+      }
+
+      .notif-enable {
+        width: 80px;
+        height: 36px;
+        padding: 0 12px;
+        border-radius: 11px;
+        border: 1px solid var(--line);
+        background: none;
+        color: var(--text);
+        font-family: inherit;
+        font-weight: 700;
+        font-size: 13.5px;
+        cursor: pointer;
+        flex-shrink: 0;
+      }
+
+      .notif-enable:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
       }
 
       .note {
