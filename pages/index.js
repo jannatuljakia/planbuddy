@@ -327,18 +327,12 @@ export default function Home() {
     }
   }
 
-  useEffect(() => {
+useEffect(() => {
     fetchItems();
 
-    const poll = setInterval(
-      fetchItems,
-      30000
-    );
+    const poll = setInterval(fetchItems, 30000);
 
-    if (
-      'Notification' in window &&
-      Notification.permission === 'granted'
-    ) {
+    if ('Notification' in window && Notification.permission === 'granted') {
       setNotifState('on');
     } else if (
       !('Notification' in window) ||
@@ -348,30 +342,17 @@ export default function Home() {
       setNotifState('unsupported');
     }
 
-    if ('serviceWorker' in navigator) {
-  navigator.serviceWorker
-    .register('/sw.js')
-    .then((reg) => console.log('SW ok:', reg.scope))
-    .catch((err) => console.error('SW error:', err));
-}
-
-    const savedName =
-      localStorage.getItem('planner_my_name');
-
+    const savedName = localStorage.getItem('planner_my_name');
     if (savedName) {
       setMyName(savedName);
     } else {
       setNameModalOpen(true);
     }
 
-    const savedDark =
-      localStorage.getItem('planner_dark_mode');
-
+    const savedDark = localStorage.getItem('planner_dark_mode');
     if (savedDark === '1') {
       setDarkMode(true);
-      document.documentElement.classList.add(
-        'dark'
-      );
+      document.documentElement.classList.add('dark');
     }
 
     return () => clearInterval(poll);
