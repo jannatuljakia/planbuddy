@@ -83,57 +83,42 @@ function daysBetween(a, b) {
   return Math.round((B - A) / 86400000);
 }
 
-function remainingTimeLabel(h) {
-  // h = hoursLeft. Negative => already passed (overdue), positive => still remaining (due soon)
-  const totalMinutes = Math.round(Math.abs(h) * 60);
-
-  let value, unit;
-
-  if (totalMinutes < 60) {
-    value = totalMinutes;
-    unit = 'মিনিট';
-  } else {
-    value = Math.round(totalMinutes / 60);
-    unit = 'ঘণ্টা';
-  }
-
-  return h < 0
-    ? `${value} ${unit} আগে পার হয়েছে`
-    : `${value} ${unit} বাকি`;
-}
-
 function whenLabel(deadline) {
   const due = new Date(deadline);
   const now = new Date();
 
   const diffDays = daysBetween(now, due);
   const t = fmtTime(due);
-  const h = hoursLeft(deadline);
-
-  // l1 — date/time line, unchanged
-  let l1;
 
   if (diffDays === 0) {
-    l1 = `Today, ${t}`;
-  } else if (diffDays === 1) {
-    l1 = `Tomorrow, ${t}`;
-  } else if (diffDays === -1) {
-    l1 = `Yesterday, ${t}`;
-  } else {
-    l1 = `${due.toLocaleString('en-US', {
-      month: 'short',
-    })} ${due.getDate()}, ${t}`;
+    return {
+      l1: `Today, ${t}`,
+      l2: `আজ, ${t}`,
+    };
   }
 
-  // l2 — DUE SOON / OVERDUE (h <= 24) দেখায় hour/minute-based remaining time,
-  // বাকি সব (UPCOMING) দিন-ভিত্তিক ফরম্যাটেই থাকবে
-  let l2;
-
-  if (h <= 24) {
-    l2 = remainingTimeLabel(h);
-  } else {
-    l2 = `${diffDays} দিন বাকি`;
+  if (diffDays === 1) {
+    return {
+      l1: `Tomorrow, ${t}`,
+      l2: `আগামীকাল, ${t}`,
+    };
   }
+
+  if (diffDays === -1) {
+    return {
+      l1: `Yesterday, ${t}`,
+      l2: `গতকাল, ${t}`,
+    };
+  }
+
+  const l1 = `${due.toLocaleString('en-US', {
+    month: 'short',
+  })} ${due.getDate()}, ${t}`;
+
+  const l2 =
+    diffDays > 0
+      ? `${diffDays} দিন বাকি`
+      : `${Math.abs(diffDays)} দিন পার হয়েছে`;
 
   return { l1, l2 };
 }
@@ -487,7 +472,7 @@ export default function Home() {
   /*
    * FIX:
    * Task save করার পরে API response check করা হচ্ছে।
-   * Successful POST/PUT হলে fetchItems() দিয়ে
+   * Successful POST/PUT হলে fetchItems() দিয়ে
    * dashboard-এর items state refresh করা হচ্ছে।
    */
   async function handleSave() {
@@ -544,7 +529,7 @@ export default function Home() {
       throw new Error(errorMessage);
     }
 
-    // Server থেকে save হওয়ার পরে dashboard আবার load হবে
+    // Server থেকে save হওয়ার পরে dashboard আবার load হবে
     await fetchItems();
 
     // Modal reset
@@ -959,7 +944,7 @@ export default function Home() {
           ) : null}
 
           {item.link ? (
-            
+            <a
               className="t-link"
               href={item.link}
               target="_blank"
