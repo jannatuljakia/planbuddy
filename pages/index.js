@@ -417,7 +417,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>PlanBuddy — Our tasks, our success</title>
+        <title>💜 PlanBuddy</title>
       </Head>
 
       <div className="app" onClick={() => { if (openMenuId) setOpenMenuId(null); if (bellOpen) setBellOpen(false); }}>
