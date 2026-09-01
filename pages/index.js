@@ -78,6 +78,13 @@ function sameDay(a, b) {
 
 function initialOf(name) { return (name || '?').trim().charAt(0).toUpperCase() || '?'; }
 
+function normalizeLink(url) {
+  const trimmed = (url || '').trim();
+  if (!trimmed) return '';
+  if (/^https?:\/\//i.test(trimmed)) return trimmed;
+  return `https://${trimmed}`;
+}
+
 function urlBase64ToUint8Array(base64String) {
   const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
   const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
@@ -218,7 +225,7 @@ export default function Home() {
     if (!form.deadline) return showToast('ডেডলাইন দিতে হবে');
     const payload = {
       type: form.type, title: form.title.trim(), subject: form.subject.trim(),
-      deadline: new Date(form.deadline).toISOString(), description: form.description.trim(), link: form.link.trim(),
+      deadline: new Date(form.deadline).toISOString(), description: form.description.trim(), link: normalizeLink(form.link),
     };
     try {
       const res = editing
@@ -319,7 +326,7 @@ export default function Home() {
           <div className="t-title">{item.title}</div>
           <div className="t-subject" style={{ color: t.color }}>{t.label}{item.subject ? ` · ${item.subject}` : ''}</div>
           {item.description ? <div className="t-meta">📄 {item.description}</div> : null}
-          {item.link ? <a className="t-link" href={item.link} target="_blank" rel="noopener noreferrer">🔗 লিংক দেখো</a> : null}
+          {item.link ? <a className="t-link" href={normalizeLink(item.link)} target="_blank" rel="noopener noreferrer">🔗 লিংক দেখো</a> : null}
         </div>
         <div className="t-when">
           <div className="l1">📅 {when.l1}</div>
