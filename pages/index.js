@@ -10,7 +10,6 @@ const TYPES = [
 
 const NAV = [
   { id: 'dashboard', ic: '🏠', label: 'Dashboard' },
-  { id: 'all', ic: '📋', label: 'All Tasks' },
   { id: 'calendar', ic: '📅', label: 'Calendar' },
   { id: 'completed', ic: '✅', label: 'Completed' },
   { id: 'stats', ic: '📈', label: 'Statistics' },
@@ -515,8 +514,6 @@ export default function Home() {
                   {nav === 'calendar' && selectedDay && (
                     <div className="daysel">
                       📅 দেখাচ্ছে: <b>{selectedDay.toLocaleDateString('en-US', { month: 'long', day: 'numeric' })}</b>
-                      {' — '}
-                      <a href="#" onClick={(e) => { e.preventDefault(); setSelectedDay(null); }}>সব দেখাও</a>
                     </div>
                   )}
 
@@ -564,7 +561,7 @@ export default function Home() {
                   </div>
 
                   <div className="tip-card">
-                    <h4>You've got this! 💪</h4>
+                    <h4>You've got this! 💪🏼</h4>
                     <p>Small steps every day lead to big results.</p>
                   </div>
                 </div>
@@ -616,7 +613,7 @@ export default function Home() {
             </div>
 
             <div className="field">
-              <label>লিংক (Google Drive/Docs ইত্যাদি) — না দিলেও চলবে</label>
+              <label>লিংক (Google Drive/Docs ইত্যাদি) </label>
               <input type="url" placeholder="https://..." value={form.link} onChange={(e) => setForm((f) => ({ ...f, link: e.target.value }))} />
             </div>
 
@@ -631,7 +628,7 @@ export default function Home() {
       {nameModalOpen && (
         <div className="overlay">
           <div className="modal name-modal">
-            <h3>তুমি কে? 👋</h3>
+            <h3>তুমি কে? 👋🏻</h3>
             <p className="name-sub">"Done by" আর "✓" বাটনে কে চাপছে বোঝার জন্য শুধু একবার নামটা লাগবে — এই ডিভাইসে মনে থাকবে।</p>
             <div className="field">
               <input
