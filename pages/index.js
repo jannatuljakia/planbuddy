@@ -976,48 +976,44 @@ export default function Home() {
         </div>
 
         <div className="doneby">
-          Done by
-
-          <div className="avs">
-            {allNames.length ? (
-              allNames.map(
-                (n, idx) => (
-                  <span
-                    key={n}
-                    className={`avatar sm ${
-                      completedBy.includes(
-                        n
-                      )
-                        ? 'filled'
-                        : 'outline'
-                    } ${
-                      idx % 2
-                        ? 'pink'
-                        : ''
-                    }`}
-                    title={
-                      completedBy.includes(
-                        n
-                      )
-                        ? `${n} ✓`
-                        : n
-                    }
-                  >
-                    {completedBy.includes(
-                      n
-                    )
-                      ? '✓'
-                      : initialOf(n)}
-                  </span>
-                )
+  <div className="avs">
+    {allNames.length ? (
+      allNames.map(
+        (n, idx) => (
+          <span
+            key={n}
+            className={`avatar sm ${
+              completedBy.includes(
+                n
               )
-            ) : (
-              <span className="avatar sm outline">
-                ?
-              </span>
-            )}
-          </div>
-        </div>
+                ? 'filled'
+                : 'outline'
+            } ${
+              idx % 2
+                ? 'pink'
+                : ''
+            }`}
+            title={
+              completedBy.includes(
+                n
+              )
+                ? `${n} ✓`
+                : n
+            }
+          >
+            {completedBy.includes(
+              n
+            )
+              ? initialOf(n)
+              : ''}
+          </span>
+        )
+      )
+    ) : (
+      <span className="avatar sm outline"></span>
+    )}
+  </div>
+</div>
 
         <button
           className={`check ${
