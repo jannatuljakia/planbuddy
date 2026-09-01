@@ -377,112 +377,50 @@ export default function Home() {
   }, []);
 
   async function enableNotifications() {
-    if (notifState === 'unsupported') {
-      showToast(
-        'তোমার ব্রাউজার পুশ নোটিফিকেশন সাপোর্ট করে না'
-      );
+  if (notifState === 'unsupported') {
+    showToast('তোমার ব্রাউজার পুশ নোটিফিকেশন সাপোর্ট করে না');
+    return;
+  }
+
+  try {
+    const permission = await Notification.requestPermission();
+    if (permission !== 'granted') {
+      showToast('নোটিফিকেশন পারমিশন দাওনি');
       return;
     }
 
-    try {
-      const permission =
-        await Notification.requestPermission();
+    await navigator.serviceWorker.register('/sw.js');
+    const reg = await navigator.serviceWorker.ready;
 
-      if (permission !== 'granted') {
-        showToast(
-          'নোটিফিকেশন পারমিশন দাওনি'
-        );
-        return;
-      }
-
-      const reg =
-        await navigator.serviceWorker.ready;
-
-      const publicKey =
-        process.env
-          .NEXT_PUBLIC_VAPID_PUBLIC_KEY;
-
-      if (!publicKey) {
-        showToast(
-          'সার্ভারে VAPID কী সেট করা নেই'
-        );
-        return;
-      }
-
-      const sub =
-        await reg.pushManager.subscribe({
-          userVisibleOnly: true,
-          applicationServerKey:
-            urlBase64ToUint8Array(publicKey),
-        });
-
-      const res = await fetch(
-        '/api/subscribe',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(sub),
-        }
-      );
-
-      if (!res.ok) {
-        throw new Error(
-          `Subscribe failed: ${res.status}`
-        );
-      }
-
-      setNotifState('on');
-
-      showToast(
-        'রিমাইন্ডার অন হয়েছে 🔔'
-      );
-    } catch (e) {
-      console.error(
-        'Notification error:',
-        e
-      );
-
-      showToast(
-        'নোটিফিকেশন চালু করতে সমস্যা হয়েছে'
-      );
+    const publicKey = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY;
+    if (!publicKey) {
+      showToast('সার্ভারে VAPID কী সেট করা নেই');
+      return;
     }
-  }
 
-  function openAddModal() {
-    setEditing(null);
+    const existingSub = await reg.pushManager.getSubscription();
+    if (existingSub) await existingSub.unsubscribe();
 
-    setForm({
-      type: 'task',
-      title: '',
-      subject: '',
-      deadline: '',
-      description: '',
-      link: '',
+    const sub = await reg.pushManager.subscribe({
+      userVisibleOnly: true,
+      applicationServerKey: urlBase64ToUint8Array(publicKey),
     });
 
-    setModalOpen(true);
-  }
-
-  function openEditModal(item) {
-    setEditing(item);
-
-    setForm({
-      type: item.type,
-      title: item.title,
-      subject: item.subject || '',
-      deadline: toLocalInputValue(
-        item.deadline
-      ),
-      description:
-        item.description || '',
-      link: item.link || '',
+    const res = await fetch('/api/subscribe', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(sub),
     });
 
-    setModalOpen(true);
-  }
+    if (!res.ok) throw new Error(`Subscribe failed: ${res.status}`);
 
+    setNotifState('on');
+    showToast('রিমাইন্ডার অন হয়েছে 🔔');
+  } catch (e) {
+    console.error('Notification error:', e);
+    showToast('নোটিফিকেশন চালু করতে সমস্যা হয়েছে: ' + e.message);
+  }
+}
   /*
    * FIX:
    * Task save করার পরে API response check করা হচ্ছে।
