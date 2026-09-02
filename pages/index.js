@@ -237,7 +237,7 @@ function PlanBuddyApp() {
       setModalOpen(false);
       setEditing(null);
       setForm({ type: 'task', title: '', subject: '', deadline: '', description: '', link: '' });
-      showToast(editing ? 'আপডেট হয়েছে ✅' : 'নতুন টাস্ক যোগ হয়েছে 🎉');
+      showToast(editing ? 'আপডেট হয়েছে' : 'নতুন টাস্ক যোগ হয়েছে 🎉');
     } catch (e) {
       console.error('Save error:', e);
       showToast('সেভ করতে সমস্যা হয়েছে');
