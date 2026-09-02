@@ -652,20 +652,11 @@ function SettingsView({ myName, onChangeName, notifState, onEnableNotif, darkMod
 function BuddyIllustration() {
   return (
     <div className="buddy-illus">
-      <svg viewBox="0 0 300 160" className="buddy-svg">
-        <ellipse cx="150" cy="145" rx="130" ry="10" fill="var(--panel-2)" />
-        <circle cx="95" cy="60" r="26" fill="var(--purple)" opacity="0.9" />
-        <rect x="70" y="82" width="50" height="55" rx="18" fill="var(--purple)" />
-        <rect x="55" y="90" width="16" height="45" rx="8" fill="var(--purple)" opacity="0.85" transform="rotate(-25 63 112)" />
-        <circle cx="205" cy="60" r="26" fill="#ec4899" opacity="0.9" />
-        <rect x="180" y="82" width="50" height="55" rx="18" fill="#ec4899" />
-        <rect x="229" y="90" width="16" height="45" rx="8" fill="#ec4899" opacity="0.85" transform="rotate(25 237 112)" />
-        <rect x="140" y="55" width="20" height="16" rx="6" fill="#fff" />
-        <path d="M150 40 C146 34 136 36 136 44 C136 50 150 58 150 58 C150 58 164 50 164 44 C164 36 154 34 150 40 Z" fill="var(--overdue)" opacity="0.85" />
-        <circle cx="50" cy="35" r="3" fill="var(--purple)" opacity="0.4" />
-        <circle cx="250" cy="45" r="4" fill="#ec4899" opacity="0.4" />
-        <circle cx="270" cy="90" r="3" fill="var(--purple)" opacity="0.4" />
-      </svg>
+      <img
+        src="/buddy-illustration.png"
+        alt="illustration"
+        className="buddy-img"
+      />
       <div className="buddy-text">
         <h4>You've got this! 💪</h4>
         <p>Small steps every day lead to big results.</p>
