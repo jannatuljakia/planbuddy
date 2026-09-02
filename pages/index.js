@@ -45,11 +45,30 @@ function daysBetween(a, b) {
 }
 
 function remainingTimeLabel(h) {
-  const totalMinutes = Math.round(Math.abs(h) * 60);
-  let value, unit;
-  if (totalMinutes < 60) { value = totalMinutes; unit = 'মিনিট'; }
-  else { value = Math.round(totalMinutes / 60); unit = 'ঘণ্টা'; }
-  return h < 0 ? `${value} ${unit} আগে পার হয়েছে` : `${value} ${unit} বাকি`;
+  const past = h < 0;
+  const absHours = Math.abs(h);
+
+  if (absHours >= 24) {
+    const days = Math.round(absHours / 24);
+    return past ? `${days} দিন আগে পার হয়েছে` : `${days} দিন বাকি`;
+  }
+
+  const totalMinutes = Math.round(absHours * 60);
+
+  if (totalMinutes < 60) {
+    return past ? `${totalMinutes} মিনিট আগে পার হয়েছে` : `${totalMinutes} মিনিট বাকি`;
+  }
+
+  if (absHours < 2) {
+    const hrs = Math.floor(totalMinutes / 60);
+    const mins = totalMinutes % 60;
+    const hrPart = `${hrs} ঘণ্টা`;
+    const minPart = mins > 0 ? ` ${mins} মিনিট` : '';
+    return past ? `${hrPart}${minPart} আগে পার হয়েছে` : `${hrPart}${minPart} বাকি`;
+  }
+
+  const hrs = Math.round(totalMinutes / 60);
+  return past ? `${hrs} ঘণ্টা আগে পার হয়েছে` : `${hrs} ঘণ্টা বাকি`;
 }
 
 function whenLabel(deadline) {
@@ -63,7 +82,7 @@ function whenLabel(deadline) {
   else if (diffDays === 1) l1 = `Tomorrow, ${t}`;
   else if (diffDays === -1) l1 = `Yesterday, ${t}`;
   else l1 = `${due.toLocaleString('en-US', { month: 'short' })} ${due.getDate()}, ${t}`;
-  const l2 = h <= 24 ? remainingTimeLabel(h) : `${diffDays} দিন বাকি`;
+  const l2 = remainingTimeLabel(h);
   return { l1, l2 };
 }
 
