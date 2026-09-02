@@ -412,6 +412,7 @@ function PlanBuddyApp() {
             <span>🌙 Dark Mode</span>
             <button className={`switch ${darkMode ? 'on' : ''}`} onClick={(e) => { e.stopPropagation(); toggleDarkMode(); }} />
           </div>
+          <div className="sidebar-footer">© 2026 PlanBuddy</div>
         </aside>
 
         <main className="main">
@@ -476,10 +477,12 @@ function PlanBuddyApp() {
                     <div className="daysel">📅 দেখাচ্ছে: <b>{selectedDay.toLocaleDateString('en-US', { month: 'long', day: 'numeric' })}</b></div>
                   )}
                   {loading ? (
-                    <div className="empty">লোড হচ্ছে...</div>
-                  ) : list.length === 0 ? (
-                    <div className="empty"><div className="e-ic">🗒️</div><div className="e-title">কোনো টাস্ক নেই</div><div>নতুন টাস্ক যোগ করে শুরু করো</div></div>
-                  ) : list.map(TaskCard)}
+  <div className="empty">লোড হচ্ছে...</div>
+) : list.length === 0 ? (
+  <div className="empty"><div className="e-ic">🗒️</div><div className="e-title">কোনো টাস্ক নেই</div><div>নতুন টাস্ক যোগ করে শুরু করো</div></div>
+) : list.map(TaskCard)}
+
+{!loading && nav === 'dashboard' && <BuddyIllustration />}
                 </div>
                 <div className="right-col">
                   <div className="panel">
@@ -642,6 +645,30 @@ function SettingsView({ myName, onChangeName, notifState, onEnableNotif, darkMod
       <div className="settings-block">
         <h3>👥 কীভাবে দুজনে ব্যবহার করবে</h3>
         <div className="note">লিংকটা তোমার বন্ধুকে পাঠাও — সে ওপেন করলে তার নাম জিজ্ঞেস করবে, তারপর দুজনেই একই টাস্ক লিস্ট দেখবে ও এডিট করতে পারবে।</div>
+      </div>
+    </div>
+  );
+}
+function BuddyIllustration() {
+  return (
+    <div className="buddy-illus">
+      <svg viewBox="0 0 300 160" className="buddy-svg">
+        <ellipse cx="150" cy="145" rx="130" ry="10" fill="var(--panel-2)" />
+        <circle cx="95" cy="60" r="26" fill="var(--purple)" opacity="0.9" />
+        <rect x="70" y="82" width="50" height="55" rx="18" fill="var(--purple)" />
+        <rect x="55" y="90" width="16" height="45" rx="8" fill="var(--purple)" opacity="0.85" transform="rotate(-25 63 112)" />
+        <circle cx="205" cy="60" r="26" fill="#ec4899" opacity="0.9" />
+        <rect x="180" y="82" width="50" height="55" rx="18" fill="#ec4899" />
+        <rect x="229" y="90" width="16" height="45" rx="8" fill="#ec4899" opacity="0.85" transform="rotate(25 237 112)" />
+        <rect x="140" y="55" width="20" height="16" rx="6" fill="#fff" />
+        <path d="M150 40 C146 34 136 36 136 44 C136 50 150 58 150 58 C150 58 164 50 164 44 C164 36 154 34 150 40 Z" fill="var(--overdue)" opacity="0.85" />
+        <circle cx="50" cy="35" r="3" fill="var(--purple)" opacity="0.4" />
+        <circle cx="250" cy="45" r="4" fill="#ec4899" opacity="0.4" />
+        <circle cx="270" cy="90" r="3" fill="var(--purple)" opacity="0.4" />
+      </svg>
+      <div className="buddy-text">
+        <h4>You've got this! 💪</h4>
+        <p>Small steps every day lead to big results.</p>
       </div>
     </div>
   );
