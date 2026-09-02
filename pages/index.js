@@ -617,3 +617,6 @@ function SettingsView({ myName, onChangeName, notifState, onEnableNotif, darkMod
     </div>
   );
 }
+export async function getServerSideProps() {
+  return { props: {} };
+}
