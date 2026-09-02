@@ -196,9 +196,9 @@ a { color: inherit; }
   box-shadow: var(--shadow);
 }
 
-.buddy-svg {
-  width: 220px;
-  max-width: 60%;
+.buddy-img {
+  width: 100%;
+  max-width: 420px;
   height: auto;
   margin: 0 auto 14px;
   display: block;
