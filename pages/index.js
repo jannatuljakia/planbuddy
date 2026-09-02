@@ -272,7 +272,16 @@ function PlanBuddyApp() {
   let list = items.filter(passesCommonFilters);
   if (nav === 'completed') list = list.filter(isDone);
   if (nav === 'calendar' && selectedDay) list = list.filter((i) => sameDay(new Date(i.deadline), selectedDay));
-  list = list.slice().sort((a, b) => new Date(a.deadline) - new Date(b.deadline));
+  if (nav === 'completed') {
+  list = list.slice().sort((a, b) => (b.lastCompletedAt || 0) - (a.lastCompletedAt || 0));
+} else {
+  list = list.slice().sort((a, b) => {
+    const doneA = isDone(a) ? 1 : 0;
+    const doneB = isDone(b) ? 1 : 0;
+    if (doneA !== doneB) return doneA - doneB;
+    return new Date(a.deadline) - new Date(b.deadline);
+  });
+}
 
   const pending = items.filter((i) => !isDone(i));
   const counts = {
