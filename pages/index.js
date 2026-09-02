@@ -657,10 +657,6 @@ function BuddyIllustration() {
         alt="illustration"
         className="buddy-img"
       />
-      <div className="buddy-text">
-        <h4>You've got this! 💪</h4>
-        <p>Small steps every day lead to big results.</p>
-      </div>
     </div>
   );
 }
