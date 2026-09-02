@@ -188,17 +188,15 @@ a { color: inherit; }
 
 .buddy-illus {
   margin-top: 20px;
-  padding: 24px;
+  padding: 12px;
   border-radius: 16px;
   background: var(--panel);
   border: 1px solid var(--line);
-  text-align: center;
-  box-shadow: var(--shadow);
 }
 
 .buddy-img {
   width: 100%;
-  max-width: 420px;
+  max-width: 500px;
   height: auto;
   margin: 0 auto 14px;
   display: block;
