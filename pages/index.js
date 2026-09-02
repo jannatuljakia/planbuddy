@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import Head from 'next/head';
+import dynamic from 'next/dynamic';
 
 const TYPES = [
   { id: 'quiz', label: 'Quiz', ic: '📖', color: 'var(--quiz)', bg: 'var(--quiz-bg)' },
@@ -94,7 +95,7 @@ function urlBase64ToUint8Array(base64String) {
   return outputArray;
 }
 
-export default function Home() {
+function PlanBuddyApp() {
   const [items, setItemsState] = useState([]);
   const [loading, setLoading] = useState(true);
   const [nav, setNav] = useState('dashboard');
@@ -617,6 +618,4 @@ function SettingsView({ myName, onChangeName, notifState, onEnableNotif, darkMod
     </div>
   );
 }
-export async function getServerSideProps() {
-  return { props: {} };
-}
+export default dynamic(() => Promise.resolve(PlanBuddyApp), { ssr: false });
