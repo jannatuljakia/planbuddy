@@ -22,7 +22,7 @@ export default async function handler(req, res) {
     const completedBy = Array.isArray(item.completedBy) ? item.completedBy : [];
     const already = completedBy.includes(name);
     item.completedBy = already ? completedBy.filter((n) => n !== name) : [...completedBy, name];
-    items[idx] = item;
+item.lastCompletedAt = Date.now();
 
     await setItems(items);
     return res.status(200).json(item);
