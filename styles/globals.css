@@ -257,7 +257,82 @@ a { color: inherit; }
   .content-grid { grid-template-columns: 1fr; }
   .stats-row { grid-template-columns: repeat(2, 1fr); }
 }
+
 @media (max-width: 720px) {
-  .sidebar { display: none; }
-  .main { padding: 18px; }
+  .sidebar {
+    display: none;
+  }
+
+  .main {
+    padding: 18px;
+    min-width: 0;
+    overflow-x: hidden;
+  }
+
+  /* Fix task card text overlap */
+  .task-card {
+    display: grid;
+    grid-template-columns: 44px minmax(0, 1fr);
+    gap: 12px;
+    align-items: start;
+  }
+
+  .t-ic {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .t-body {
+    grid-column: 2;
+    grid-row: 1;
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .t-title,
+  .t-subject,
+  .t-meta,
+  .t-link {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    line-height: 1.5;
+  }
+
+  .t-when {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    min-width: 0;
+    width: 100%;
+    padding-top: 8px;
+    border-top: 1px solid var(--line);
+  }
+
+  .doneby {
+    grid-column: 1 / -1;
+    grid-row: 3;
+    text-align: left;
+    width: 100%;
+  }
+
+  .doneby .avs {
+    justify-content: flex-start;
+  }
+
+  .check {
+    position: absolute;
+    top: 16px;
+    right: 14px;
+  }
+
+  .more {
+    position: absolute;
+    top: 48px;
+    right: 14px;
+  }
+
+  .search-wrap {
+    min-width: 0;
+    width: 100%;
+    margin-left: 0;
+  }
 }
