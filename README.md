@@ -21,17 +21,13 @@ Shared quiz/assignment/presentation/task tracker with real browser push notifica
 (Vercel-এর Storage মার্কেটপ্লেস থেকেও Upstash যোগ করা যায়, যেটা এই দুটো env var অটোমেটিক সেট করে দেয় — চাইলে সেভাবেও করতে পারো।)
 
 ## ধাপ ২: VAPID কী (পুশ নোটিফিকেশনের জন্য)
-এই প্রজেক্টের জন্য একটা তৈরি কী-পেয়ার দেওয়া আছে, সরাসরি ব্যবহার করতে পারো:
-
-```
-NEXT_PUBLIC_VAPID_PUBLIC_KEY=BFyYPI3PuGJfep0dVR8eQEZ1SHyC-aYOInMqML0MyU2BI5lGRncT0JG1gV-0yyQr9dm1UXEF1_qAaqgrZ31uyWM
-VAPID_PRIVATE_KEY=rqsCCP7tKlrsdz1EQAPhKY4jZp7DIP07hvsTTIJqf7Q
-```
-
-চাইলে নিজের কী বানাতে পারো (নিরাপত্তার জন্য এটাই ভালো অভ্যাস), লোকালি এই কমান্ড চালিয়ে:
+**নিজের কী-পেয়ার বানাও** — লোকালি এই কমান্ড চালিয়ে:
 ```
 npx web-push generate-vapid-keys
 ```
+এটা দুটো ভ্যালু দেবে — `Public Key` আর `Private Key`। দুটোই কপি করে সরাসরি Vercel-এর Environment Variables-এ বসাও
+(`NEXT_PUBLIC_VAPID_PUBLIC_KEY` আর `VAPID_PRIVATE_KEY`), **কখনো এই README বা কোনো কোড ফাইলে আসল
+key value বসিও না** — বিশেষ করে repo public হলে সেটা সবাই দেখে ফেলবে।
 
 ## ধাপ ৩: GitHub-এ কোড push করো
 ```
