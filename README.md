@@ -51,8 +51,8 @@ git push -u origin main
 | `UPSTASH_REDIS_REST_TOKEN` | (ধাপ ১ থেকে) |
 | `NEXT_PUBLIC_VAPID_PUBLIC_KEY` | (ধাপ ২ থেকে) |
 | `VAPID_PRIVATE_KEY` | (ধাপ ২ থেকে) |
-| `CRON_SECRET` | নিজের একটা র‍্যান্ডম পাসওয়ার্ড বসাও, যেমন `myclass2026secret` |
-| `SITE_USER` | সাইটে ঢুকতে যেই username দিয়ে লগইন করবে, যেমন `class2026` |
+| `CRON_SECRET` | নিজের একটা র‍্যান্ডম পাসওয়ার্ড বসাও |
+| `SITE_USER` | সাইটে ঢুকতে যেই username দিয়ে লগইন করবে |
 | `SITE_PASSWORD` | সাইটে ঢুকতে যেই পাসওয়ার্ড দিয়ে লগইন করবে (তুমি আর তোমার বন্ধু ছাড়া কেউ জানবে না) |
 
 **নোট:** `SITE_USER` / `SITE_PASSWORD` সেট করলে পুরো সাইট (browser-এর নিজস্ব) login popup দিয়ে লক হয়ে যাবে —
