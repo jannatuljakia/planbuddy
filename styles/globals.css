@@ -291,12 +291,15 @@ a { color: inherit; }
     gap: 0;
   }
 
-  .sidebar .tagline,
-  .sidebar .side-spacer,
-  .sidebar .friend-card,
-  .sidebar .sidebar-footer {
-    display: none;
-  }
+  .sidebar .side-spacer {
+  display: none;
+}
+
+.sidebar .tagline,
+.sidebar .friend-card,
+.sidebar .sidebar-footer {
+  display: block;
+}
 
   .sidebar .logo {
     font-size: 19px;
