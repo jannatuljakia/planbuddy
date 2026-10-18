@@ -264,6 +264,20 @@ a { color: inherit; }
     flex-direction: column;
   }
 
+  /* Keep the reminder dropdown fully inside the phone viewport */
+.topbar,
+.top-actions {
+  min-width: 0;
+}
+
+.bell-panel {
+  right: 0;
+  left: auto;
+  width: min(270px, calc(100vw - 36px));
+  max-width: calc(100vw - 36px);
+  box-sizing: border-box;
+}
+
   .sidebar {
     display: flex;
     position: relative;
