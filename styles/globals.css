@@ -301,6 +301,15 @@ a { color: inherit; }
   display: block;
 }
 
+  .sidebar {
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar .sidebar-footer {
+  margin-top: auto;
+}
+
   .sidebar .logo {
     font-size: 19px;
     margin-bottom: 12px;
