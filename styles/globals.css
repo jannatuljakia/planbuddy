@@ -415,3 +415,27 @@ a { color: inherit; }
     margin-left: 0;
   }
 }
+
+@media (max-width: 720px) {
+  .sidebar {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+  }
+
+  .sidebar .side-spacer {
+    display: none;
+  }
+
+  .sidebar .tagline,
+  .sidebar .friend-card {
+    display: block;
+  }
+
+  .sidebar .sidebar-footer {
+    display: block !important;
+    margin-top: 12px;
+    padding-bottom: 4px;
+    text-align: center;
+  }
+}
